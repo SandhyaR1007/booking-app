@@ -16,11 +16,10 @@ const createRoom = async (req, res, next) => {
 
 const updateRoom = async (req, res, next) => {
   try {
-    const updatedRoom = await Hotels.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const updatedRoom = await Rooms.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+
     res.status(200).json({ message: "Room Updated", updatedRoom });
   } catch (error) {
     next(error);
@@ -37,8 +36,12 @@ const getRooms = async (req, res, next) => {
 };
 
 const deleteRoom = async (req, res, next) => {
+  const hotelId = req.params.hotelId;
   try {
     const room = await Rooms.findByIdAndDelete(req.params.id);
+    await Hotels.findByIdAndDelete(hotelId, {
+      $pull: { rooms: req.params.id },
+    });
     res.status(200).json({ message: "Room deleted", room });
   } catch (error) {
     next(error);

@@ -16,6 +16,6 @@ roomsRouter.get("/", getRooms);
 //UPDATE
 roomsRouter.put("/updateRoom/:id", verifyAdmin, updateRoom);
 //DELETE
-roomsRouter.delete("/deleteRoom/:id", verifyAdmin, deleteRoom);
+roomsRouter.delete("/deleteRoom/:id/:hotelId", verifyAdmin, deleteRoom);
 
 export default roomsRouter;
